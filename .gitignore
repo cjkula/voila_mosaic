@@ -1,4 +1,4 @@
 originals/**
-sources/**
-normalized/**
-mosaic/**
+sources/*.*
+normalized/*.*
+mosaic/*.*
