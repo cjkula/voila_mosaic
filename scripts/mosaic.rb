@@ -20,10 +20,12 @@ NUM_COLUMNS = 38
 # pixel size of the tile images
 # this is used to lay out the tiles and to compensate for the non-square aspect ratio
 # should be the same dimensions used in 'normalize.rb'
-THUMB_WIDTH = 120
-THUMB_HEIGHT = 150
+THUMB_WIDTH = 100
+THUMB_HEIGHT = 125
 
-master = (Image.read MASTER_IMAGE)[0]
+# read the master image and convert to grayscale
+master = (Image.read MASTER_IMAGE)[0].quantize(256, Magick::GRAYColorspace)
+
 original_aspect_ratio = master.columns.to_f / master.rows.to_f
 thumb_aspect_ratio = THUMB_WIDTH.to_f / THUMB_HEIGHT.to_f
 width = NUM_COLUMNS
@@ -81,7 +83,6 @@ source_images.each_with_index do |image, index|
   row = pixel[:y]
   
   # now the level adjustment
-  # current_avg = image[:average_color].to_f  # what we got
   desired_avg = pixel[:color].to_f          # what we want
   desired_avg = 100.0 if desired_avg < 100  # less than 100 is absurd if it's still an image
   adjusted_image = image.clone              # clone for the new list
